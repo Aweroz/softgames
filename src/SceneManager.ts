@@ -2,10 +2,13 @@ import { Application, DisplayObject } from "pixi.js";
 import { GAME_HEIGHT } from "./constants/Constants";
 
 export class SceneManager {
-  private constructor() { }
-
+  static screenWidth: number;
+  static screenHeight: number;
+  
   private static app: Application;
   private static currentScene: IScene;
+  
+  private constructor() { }
 
   public static get width(): number {
     return Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
@@ -36,9 +39,9 @@ export class SceneManager {
       SceneManager.currentScene.destroy({ children: true });
     }
 
-    // Add the new one
+    // Add the new one to the bottom
     SceneManager.currentScene = newScene;
-    SceneManager.app.stage.addChild(SceneManager.currentScene);
+    SceneManager.app.stage.addChildAt(SceneManager.currentScene, 0);
 
     //
     SceneManager.resize();
@@ -47,7 +50,7 @@ export class SceneManager {
   // This update will be called by a pixi ticker and tell the scene that a tick happened
   private static update(_framesPassed: number): void {
     if (SceneManager.currentScene) {
-      SceneManager.currentScene.update(SceneManager.app.ticker.deltaTime);
+      SceneManager.currentScene.update(SceneManager.app.ticker.deltaMS / 1000);
     }
   }
 
@@ -66,16 +69,16 @@ export class SceneManager {
     ar = width / height;
 
     // resize renderer
-    const screenWidth: number = GAME_HEIGHT * ar;
-    const screenHeight: number = GAME_HEIGHT;
-    SceneManager.app.renderer.resize(screenWidth, screenHeight);
+    SceneManager.screenWidth = GAME_HEIGHT * ar;
+    SceneManager.screenHeight = GAME_HEIGHT;
+    SceneManager.app.renderer.resize(SceneManager.screenWidth, SceneManager.screenHeight);
     // apply style to canvas - HAS to be done AFTER renderer resize !!!
     SceneManager.app.view.style!.width = `${width}px`;
     SceneManager.app.view.style!.height = `${height}px`;
 
     // resize scene if exists
     if (SceneManager.currentScene) {
-      SceneManager.currentScene.resize(screenWidth, screenHeight);
+      SceneManager.currentScene.resize(SceneManager.screenWidth, SceneManager.screenHeight);
     }
   }
 }

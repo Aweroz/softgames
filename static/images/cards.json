@@ -1,0 +1,28 @@
+{"frames": {
+
+"card.png":
+{
+	"frame": {"x":200,"y":1,"w":194,"h":280},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":194,"h":280},
+	"sourceSize": {"w":194,"h":280}
+},
+"slot.png":
+{
+	"frame": {"x":1,"y":1,"w":197,"h":284},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":197,"h":284},
+	"sourceSize": {"w":197,"h":284}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.1",
+	"image": "cards.png",
+	"format": "RGBA8888",
+	"size": {"w":395,"h":286},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:664d1c467c1fad1087cea52df370527c:c9cc5cb7927aa53b469c40ab91c6167e:8056528aade6b91f4a89f8c9da7f2d4c$"
+}
+}

@@ -6,14 +6,20 @@ import { WelcomeScene } from "./scenes/WelcomeScene";
 import { CardsScene } from "./scenes/CardsScene";
 import { DialogueScene } from "./scenes/DialogueScene";
 import { FireScene } from "./scenes/FireScene";
+import { FPS } from "./ui/FPS";
 
 export class GameManager {
   private constructor() {}
 
-  private static app: Application;
+  private static _app: Application;
+  private static fps: FPS;
+
+  public static get app(): Application {
+    return GameManager._app;
+  }
 
   public static initialize(background: number): void {
-    GameManager.app = new Application<HTMLCanvasElement>({
+    GameManager._app = new Application<HTMLCanvasElement>({
       view: document.getElementById("pixi-canvas") as HTMLCanvasElement,
       width: GAME_WIDTH,
       height: GAME_HEIGHT,
@@ -22,13 +28,19 @@ export class GameManager {
       backgroundColor: background
     });
 
-    SceneManager.initialize(GameManager.app);
+    SceneManager.initialize(GameManager._app);
 
     // load assets
     SceneManager.changeScene(new LoaderScene());
   }
 
   public static welcome() {
+    // add fps
+    if (!GameManager.fps) {
+      GameManager.fps = new FPS();
+      GameManager.app.stage.addChild(GameManager.fps);
+    }
+
     SceneManager.changeScene(new WelcomeScene());
   }
 

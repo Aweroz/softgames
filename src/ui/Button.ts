@@ -6,7 +6,7 @@ export class Button extends Container {
   private back: Graphics;
   private label: BitmapText;
 
-  constructor(label: string, id: string) {
+  constructor(label: string, id: string, width: number = 300) {
     super();
 
     this.id = id;
@@ -14,18 +14,19 @@ export class Button extends Container {
     this.back = new Graphics();
     this.back.beginFill(0x000000, 0.2);
     this.back.lineStyle(2, 0xffffff);
-    this.back.drawRoundedRect(-110, -30, 220, 60, 15);
+    this.back.drawRoundedRect(-width / 2, -30, width, 60, 15);
     this.back.endFill();
 
     this.addChild(this.back);
 
     this.label = new BitmapText(label,
     {
-        fontName: "comic 32",
-        fontSize: 32,
+        fontName: "fnt_uni_32",
+        fontSize: 24,
         tint: 0xFFFFFF
     });
     this.label.anchor.set(0.5);
+    this.label.y = -3;
     this.addChild(this.label);
 
     this.eventMode = "dynamic";

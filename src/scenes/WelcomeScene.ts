@@ -8,10 +8,10 @@ import { GAMES } from "../constants/Constants";
 export class WelcomeScene extends Container implements IScene {
   
   private bg: Background;
+  private buttonsContainer: any;
   private btnCards: Button;
   private btnDialogue: Button;
   private btnFire: Button;
-  private buttonsContainer: any;
 
   constructor() {
     super();
@@ -42,9 +42,7 @@ export class WelcomeScene extends Container implements IScene {
     GameManager.startGame(data.id);
   }
 
-  update(_deltaTime: number): void {
-    
-  }
+  update(_deltaTime: number): void {}
 
   resize(screenWidth: number, screenHeight: number): void {
     this.buttonsContainer.x = screenWidth / 2;
