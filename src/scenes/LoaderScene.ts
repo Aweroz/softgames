@@ -62,8 +62,8 @@ export class LoaderScene extends Container implements IScene{
         BitmapFont.from("fnt_uni_32", {
             fill: "#ffffff", // White, will be colored later
             fontFamily: "uni 05_54",
-            fontSize: 32
-        })
+            fontSize: 32,
+        }, { chars: BitmapFont.ASCII })
         // start game
         GameManager.welcome();
     }

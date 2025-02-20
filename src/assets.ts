@@ -18,13 +18,6 @@ export const manifest:AssetsManifest = {
             {
                 "fnt_uni05" : "./fonts/uni05_54.woff2",
             }
-        },
-        {
-            name : "audio",
-            assets:
-            {
-                "jump" : "./audio/jump.wav",
-            }
-        },
+        }
     ]
 }

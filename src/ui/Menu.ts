@@ -14,7 +14,7 @@ export class Menu extends Container {
     super();
     
     // add background
-    this.bg = new Graphics().beginFill(0, 0.8).drawRect(0, 0, GAME_WIDTH, GAME_HEIGHT).endFill();
+    this.bg = new Graphics().beginFill(0, 0.85).drawRect(0, 0, GAME_WIDTH, GAME_HEIGHT).endFill();
     this.addChild(this.bg);
     this.bg.eventMode = "dynamic";
 
@@ -57,6 +57,6 @@ export class Menu extends Container {
 
   resize(screenWidth: number, screenHeight: number): void {
     this.buttonsContainer.x = screenWidth / 2;
-    this.buttonsContainer.y = screenHeight / 2 - this.buttonsContainer.height / 2;
+    this.buttonsContainer.y = (screenHeight - this.buttonsContainer.height) / 2 + 30;
   }
 }

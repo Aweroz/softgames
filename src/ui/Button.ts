@@ -32,6 +32,7 @@ export class Button extends Container {
     this.eventMode = "dynamic";
 
     this.on("pointertap", this.handleTap, this);
+    this.cursor = "pointer";
   }
 
   handleTap(_e: FederatedPointerEvent): void {

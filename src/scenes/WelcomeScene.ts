@@ -9,9 +9,7 @@ export class WelcomeScene extends Container implements IScene {
   
   private bg: Background;
   private buttonsContainer: any;
-  private btnCards: Button;
-  private btnDialogue: Button;
-  private btnFire: Button;
+  private buttons: Button[];
 
   constructor() {
     super();
@@ -21,21 +19,21 @@ export class WelcomeScene extends Container implements IScene {
     this.addChild(this.bg);
 
     // add buttons
-    this.btnCards = new Button("Ace of Shadows", GAMES.CARDS);
-    this.btnCards.y = - 80;
-    this.btnDialogue = new Button("Magic Words", GAMES.DIALOGUE);
-    this.btnFire = new Button("Phoenix Flame", GAMES.FIRE);
-    this.btnFire.y = 80;
+    this.buttons = [];
+    this.buttons.push(new Button("Ace of Shadows", GAMES.CARDS));
+    this.buttons.push(new Button("Magic Words", GAMES.DIALOGUE));
+    this.buttons.push(new Button("Phoenix Flame", GAMES.FIRE));
 
-    this.btnCards.on("buttonselect", this.handleButtonSelect, this);
-    this.btnDialogue.on("buttonselect", this.handleButtonSelect, this);
-    this.btnFire.on("buttonselect", this.handleButtonSelect, this);
+    this.buttons.forEach((btn, i) => {
+      btn.on("buttonselect", this.handleButtonSelect, this);
+      btn.y = i * 80;
+    })
 
     // add container for the buttons
     this.buttonsContainer = new Container();
     this.addChild(this.buttonsContainer);
 
-    this.buttonsContainer.addChild(this.btnCards, this.btnDialogue, this.btnFire);
+    this.buttonsContainer.addChild(...this.buttons);
   }
 
   handleButtonSelect(data:any): void {
@@ -46,6 +44,6 @@ export class WelcomeScene extends Container implements IScene {
 
   resize(screenWidth: number, screenHeight: number): void {
     this.buttonsContainer.x = screenWidth / 2;
-    this.buttonsContainer.y = screenHeight / 2;
+    this.buttonsContainer.y = (screenHeight - this.buttonsContainer.height) / 2 + 30;
   }
 }
