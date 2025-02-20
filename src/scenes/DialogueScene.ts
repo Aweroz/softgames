@@ -30,7 +30,7 @@ export class DialogueScene extends Container implements IScene {
     this.characterSide = "";
 
     // add background
-    this.bg = new Background("bg_yellow");
+    this.bg = new Background("bg_green");
     this.addChild(this.bg);
 
     this.dialogueContainer = new Container();
@@ -66,31 +66,35 @@ export class DialogueScene extends Container implements IScene {
       console.error(error);
     }
     
-    // load avatars and emojis
-    const images: string[] = [];
-    this.data?.avatars.forEach((av) => {
+    // load avatars
+    for (const av of this.data!.avatars) {
       Assets.add({
         alias: av.name,
         src: av.url,
         loadParser: "loadTextures"
       });
-      images.push(av.name);
-    });
+      try {
+        await Assets.load(av.name);
+      } catch (error) {
+        console.error(error);
+      }
+    }
 
-    this.data?.emojies.forEach((em) => {
+    // load emojis
+    for (const em of this.data!.emojies) {
       Assets.add({
         alias: em.name,
-        src: em.url.replace("com:81", "com"), // this fixes wrong url
+        src: em.url,
         loadParser: "loadTextures"
       });
-      images.push(em.name);
       this.availableEmojis.push(em.name);
-    })
-    try {
-      await Assets.load(images);
-    } catch (error) {
-      console.error(error);
-    }
+      try {
+        await Assets.load(em.name);
+      } catch (error) {
+        this.availableEmojis = this.availableEmojis.filter(name => name !== em.name);
+        console.error(error);
+      }
+    };
   }
 
   private startDialogue(): void {

@@ -15,14 +15,14 @@ export class LoaderScene extends Container implements IScene{
         const loaderBarWidth = 400;
         // the fill of the bar.
         this.loaderBarFill = new Graphics();
-        this.loaderBarFill.beginFill(0x008800, 1)
+        this.loaderBarFill.beginFill(0xffffff, 1)
         this.loaderBarFill.drawRect(0, 0, loaderBarWidth, 50);
         this.loaderBarFill.endFill();
         this.loaderBarFill.scale.x = 0; // we draw the filled bar and with scale we set the %
 
         // The border of the bar.
         this.loaderBarBoder = new Graphics();
-        this.loaderBarBoder.lineStyle(10, 0x0, 1);
+        this.loaderBarBoder.lineStyle(3, 0x0, 1);
         this.loaderBarBoder.drawRect(0, 0, loaderBarWidth, 50);
 
         // Now we keep the border and the fill in a container so we can move them together.
