@@ -59,8 +59,6 @@ export class LoaderScene extends Container implements IScene{
     }
 
     private gameLoaded(): void {
-        console.log(Assets.get("uni_fnt"));
-        // console.log(BitmapFont.install(Assets.get("uni_fnt"), Assets.get("uni_png")));
         // start game
         GameManager.welcome();
     }

@@ -40,7 +40,7 @@ export class DialogueScene extends Container implements IScene {
     this.hud = new GameHUD();
     this.addChild(this.hud);
 
-    // get data
+    // show loader
     this.loading = new BitmapText("Loading...",
       {
         fontName: "Uni0554",
@@ -48,6 +48,8 @@ export class DialogueScene extends Container implements IScene {
         tint: 0xFFFFFF
       });
     this.dialogueContainer.addChild(this.loading);
+
+    // get data
     this.fetchData().then(() => {
       this.loading.visible = false;
       this.startDialogue();
@@ -84,7 +86,7 @@ export class DialogueScene extends Container implements IScene {
     for (const em of this.data!.emojies) {
       Assets.add({
         alias: em.name,
-        src: em.url.replace(":81", ""),
+        src: em.url.replace(":81", ""), // dirty fix to solve issue with broken url - without this there is an issue on Apple devices, seems to be bug in pixi assets loader
         loadParser: "loadTextures"
       });
       this.availableEmojis.push(em.name);
@@ -148,6 +150,7 @@ export class DialogueScene extends Container implements IScene {
     this.positionCharacter(SceneManager.screenWidth, SceneManager.screenHeight);
   }
 
+  // set position of the character next to the frame
   private positionCharacter(screenWidth: number, screenHeight: number): void {
     if (this.character) {
       this.character.x = screenWidth / 2 + (this.frame!.width / 2 + 50) * (this.characterSide === "left" ? -1 : 1);
@@ -155,6 +158,7 @@ export class DialogueScene extends Container implements IScene {
     }
   }
 
+  // set position of the frame at the bottom of the screen
   private positionFrame(screenWidth: number, screenHeight: number): void {
     if (this.frame) {
       this.frame.drawFrame(Math.max(500, screenWidth * 0.6));

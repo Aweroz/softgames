@@ -33,7 +33,7 @@ export class SceneManager {
   }
 
   public static changeScene(newScene: IScene):void {
-    // Remove and destroy old scene... if we had one..
+    // Remove and destroy old scene...
     if (SceneManager.currentScene) {
       SceneManager.app.stage.removeChild(SceneManager.currentScene);
       SceneManager.currentScene.destroy({ children: true });
@@ -78,7 +78,6 @@ export class SceneManager {
 
     // resize scene if exists
     if (SceneManager.currentScene) {
-      console.log(SceneManager.screenWidth, SceneManager.screenHeight);
       SceneManager.currentScene.resize(SceneManager.screenWidth, SceneManager.screenHeight);
     }
   }
