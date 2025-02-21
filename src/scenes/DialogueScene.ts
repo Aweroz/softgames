@@ -1,8 +1,9 @@
-import { Assets, BitmapText, Container, Sprite } from "pixi.js";
+import { Assets, BitmapText, Container } from "pixi.js";
 import { IScene, SceneManager } from "../SceneManager";
 import { Background } from "../ui/Background";
 import { GameHUD } from "../ui/GameHUD";
 import { TextFrame } from "../games/dialogue/TextFrame";
+import { Character } from "../games/dialogue/Character";
 
 type DialogueData = {
   dialogue: { name: string, text: string }[],
@@ -18,8 +19,7 @@ export class DialogueScene extends Container implements IScene {
   private hud: GameHUD;
   private data: DialogueData | undefined;
   private currentLine: number;
-  private character: Sprite | undefined;
-  private characterSide: string;
+  private character: Character | undefined;
   private frame: TextFrame | undefined;
   private availableEmojis: string[] = [];
 
@@ -27,7 +27,6 @@ export class DialogueScene extends Container implements IScene {
     super();
 
     this.currentLine = 0;
-    this.characterSide = "";
 
     // add background
     this.bg = new Background("bg_green");
@@ -133,12 +132,8 @@ export class DialogueScene extends Container implements IScene {
     const characterData = this.data?.avatars.find(av => av.name === dialogue?.name);
     // some characters do not have avatar
     if (characterData) {
-      this.character = Sprite.from(dialogue!.name);
+      this.character = new Character(dialogue!.name, characterData.position);
       this.dialogueContainer.addChild(this.character);
-      this.character.anchor.set(0.5, 1);
-      this.characterSide = characterData.position;
-    } else {
-      this.characterSide = "";
     }
 
     // display dialogue in frame
@@ -153,7 +148,7 @@ export class DialogueScene extends Container implements IScene {
   // set position of the character next to the frame
   private positionCharacter(screenWidth: number, screenHeight: number): void {
     if (this.character) {
-      this.character.x = screenWidth / 2 + (this.frame!.width / 2 + 50) * (this.characterSide === "left" ? -1 : 1);
+      this.character.x = screenWidth / 2 + (this.frame!.width / 2 + 50) * (this.character.side === "left" ? -1 : 1);
       this.character.y = screenHeight;
     }
   }

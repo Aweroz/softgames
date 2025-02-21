@@ -1,10 +1,12 @@
-import { BitmapText, Container, Graphics, Sprite } from "pixi.js";
+import { BitmapText, Container, Graphics, IDestroyOptions, Sprite, Ticker } from "pixi.js";
+import { Group, Tween } from "tweedle.js";
 
 export class TextFrame extends Container {
 
   private frame: Graphics | undefined;
   private charName: BitmapText;
   private words: Container[];
+  private tweens: Tween<any>[] = [];
 
   constructor(name: string, text: string, availableEmojies: string[]) {
     super();
@@ -36,6 +38,7 @@ export class TextFrame extends Container {
           this.words.push(emoji);
         }
       } else {
+        // word
         this.words.push(new BitmapText(chunk,
           {
             fontName: "Uni0554",
@@ -48,9 +51,10 @@ export class TextFrame extends Container {
 
     //
     this.addChild(...this.words);
-
+    
     //
-    this.positionText()
+    this.positionText();
+    this.animateText();
   }
 
   drawFrame(width: number): void {
@@ -74,14 +78,14 @@ export class TextFrame extends Container {
     this.positionWords();
   }
 
-  positionName(): void {
+  private positionName(): void {
     const left: number = this.frame!.x + 40;
     const top: number = this.frame!.y + 20;
     this.charName.x = left;
     this.charName.y = top;
   }
 
-  positionWords(): void {
+  private positionWords(): void {
     const width: number = this.frame!.width - 80;
     const left: number = this.frame!.x + 40;
     const top: number = this.charName!.y + 40;
@@ -99,5 +103,28 @@ export class TextFrame extends Container {
       }
       x += gap + word.width;
     });
+  }
+
+  private animateText(): void {
+    this.tweens = [];
+    this.words.forEach((word, i) => {
+      word.alpha = 0;
+      const tween:Tween<any> = new Tween(word)
+        .to({ alpha: 1}, 100)
+        .delay(i * 50)
+        .start();
+      this.tweens.push(tween);
+    })
+
+    Ticker.shared.add(this.update, this);
+  }
+    
+  private update(): void {
+    Group.shared.update();
+  }
+
+  override destroy(options?: IDestroyOptions | boolean): void {
+    Ticker.shared.remove(this.update, this);
+    super.destroy(options);
   }
 }

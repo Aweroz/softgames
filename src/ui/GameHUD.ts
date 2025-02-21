@@ -24,7 +24,7 @@ export class GameHUD extends Container {
 
   handleCloseMenu() {
     this.menu?.off("close");
-    this.menu?.destroy(true);
+    this.menu?.destroy();
     this.menu = undefined;
   }
 
