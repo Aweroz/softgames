@@ -1,4 +1,4 @@
-import { Container, Graphics, Assets, BitmapFont } from "pixi.js";
+import { Container, Graphics, Assets } from "pixi.js";
 import { manifest } from "../assets";
 import { IScene } from "../SceneManager";
 import { GameManager } from "../GameManager";
@@ -59,11 +59,8 @@ export class LoaderScene extends Container implements IScene{
     }
 
     private gameLoaded(): void {
-        BitmapFont.from("fnt_uni_32", {
-            fill: "#ffffff", // White, will be colored later
-            fontFamily: "uni 05_54",
-            fontSize: 32,
-        }, { chars: BitmapFont.ASCII })
+        console.log(Assets.get("uni_fnt"));
+        // console.log(BitmapFont.install(Assets.get("uni_fnt"), Assets.get("uni_png")));
         // start game
         GameManager.welcome();
     }

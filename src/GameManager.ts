@@ -23,7 +23,7 @@ export class GameManager {
       view: document.getElementById("pixi-canvas") as HTMLCanvasElement,
       width: GAME_WIDTH,
       height: GAME_HEIGHT,
-      resolution: window.devicePixelRatio || 1,
+      resolution: Math.floor(window.devicePixelRatio) || 1,
       autoDensity: true,
       backgroundColor: background
     });

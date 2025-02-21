@@ -13,7 +13,7 @@ export const manifest:AssetsManifest = {
                 "bg_dark" : "./images/bg_dark.png",
                 "cards" : "./images/cards.json",
                 "flame1" : "./images/flame1.png",
-                "dragon" : "./images/dragon.png",
+                "fire" : "./images/fire.json",
             }
         },
         {
@@ -27,7 +27,7 @@ export const manifest:AssetsManifest = {
             name : "fonts",
             assets:
             {
-                "fnt_uni05" : "./fonts/uni05_54.woff2",
+                "uni_fnt" : "./fonts/uni0554.fnt",
             }
         }
     ]

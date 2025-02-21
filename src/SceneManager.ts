@@ -78,6 +78,7 @@ export class SceneManager {
 
     // resize scene if exists
     if (SceneManager.currentScene) {
+      console.log(SceneManager.screenWidth, SceneManager.screenHeight);
       SceneManager.currentScene.resize(SceneManager.screenWidth, SceneManager.screenHeight);
     }
   }

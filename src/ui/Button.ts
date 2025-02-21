@@ -21,7 +21,7 @@ export class Button extends Container {
 
     this.label = new BitmapText(label,
     {
-        fontName: "fnt_uni_32",
+        fontName: "Uni0554",
         fontSize: 24,
         tint: 0xFFFFFF
     });

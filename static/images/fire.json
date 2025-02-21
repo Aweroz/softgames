@@ -1,0 +1,44 @@
+{"frames": {
+
+"dragon.png":
+{
+	"frame": {"x":1,"y":1,"w":498,"h":498},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":498,"h":498},
+	"sourceSize": {"w":498,"h":498}
+},
+"ground.png":
+{
+	"frame": {"x":345,"y":501,"w":100,"h":228},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":228},
+	"sourceSize": {"w":100,"h":228}
+},
+"knight.png":
+{
+	"frame": {"x":1,"y":501,"w":342,"h":175},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":342,"h":175},
+	"sourceSize": {"w":342,"h":175}
+},
+"shadow.png":
+{
+	"frame": {"x":447,"y":501,"w":203,"h":44},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":203,"h":44},
+	"sourceSize": {"w":203,"h":44}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.1",
+	"image": "fire.png",
+	"format": "RGBA8888",
+	"size": {"w":500,"h":730},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:43b5e0146907e799793b9987388d63d9:06b2d5f4f49967eb6ec4ab816b665a30:fe85b518f19a08db92d89ee48ba7169f$"
+}
+}

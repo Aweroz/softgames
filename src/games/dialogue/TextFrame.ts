@@ -17,7 +17,7 @@ export class TextFrame extends Container {
     // character name
     this.charName = new BitmapText(name,
     {
-      fontName: "fnt_uni_32",
+      fontName: "Uni0554",
       fontSize: 24,
       tint: 0xFAF525
     });
@@ -38,7 +38,7 @@ export class TextFrame extends Container {
       } else {
         this.words.push(new BitmapText(chunk,
           {
-            fontName: "fnt_uni_32",
+            fontName: "Uni0554",
             fontSize: 24,
             tint: 0xFFFFFF
           })

@@ -43,7 +43,7 @@ export class DialogueScene extends Container implements IScene {
     // get data
     this.loading = new BitmapText("Loading...",
       {
-        fontName: "fnt_uni_32",
+        fontName: "Uni0554",
         fontSize: 32,
         tint: 0xFFFFFF
       });
@@ -84,7 +84,7 @@ export class DialogueScene extends Container implements IScene {
     for (const em of this.data!.emojies) {
       Assets.add({
         alias: em.name,
-        src: em.url,
+        src: em.url.replace(":81", ""),
         loadParser: "loadTextures"
       });
       this.availableEmojis.push(em.name);

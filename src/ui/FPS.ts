@@ -15,7 +15,7 @@ export class FPS extends Container {
 
     this.label = new BitmapText("FPS: 0",
     {
-        fontName: "fnt_uni_32",
+        fontName: "Uni0554",
         fontSize: 16,
         tint: 0xFFFFFF
     });
