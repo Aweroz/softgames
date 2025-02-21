@@ -1,6 +1,9 @@
 import { Application, DisplayObject } from "pixi.js";
 import { GAME_HEIGHT } from "./constants/Constants";
 
+/**
+ * The SceneManager class that handles changing scenes and add calls update for current scene
+ */
 export class SceneManager {
   static screenWidth: number;
   static screenHeight: number;

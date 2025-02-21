@@ -1,6 +1,9 @@
 import { BitmapText, Container, Graphics } from "pixi.js";
 import { GameManager } from "../GameManager";
 
+/**
+ * The FPS displays average fps based on last 30 frames
+ */
 export class FPS extends Container {
   private back: Graphics;
   private label: BitmapText;

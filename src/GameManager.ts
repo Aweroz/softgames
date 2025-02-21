@@ -8,6 +8,9 @@ import { DialogueScene } from "./scenes/DialogueScene";
 import { FireScene } from "./scenes/FireScene";
 import { FPS } from "./ui/FPS";
 
+/**
+ * The GameManager is responsible for initialization of the PixiJS Application and handles all the navigation between scenes
+ */
 export class GameManager {
   private constructor() {}
 

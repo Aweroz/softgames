@@ -2,6 +2,9 @@ import { Container } from "pixi.js";
 import { Button } from "./Button";
 import { Menu } from "./Menu";
 
+/**
+ * The GameHUD displays in game UI
+ */
 export class GameHUD extends Container {
 
   private btnMenu: Button;
@@ -15,14 +18,14 @@ export class GameHUD extends Container {
     this.btnMenu.on("buttonselect", this.handleButonSelect, this);
   }
 
-  handleButonSelect(): void {
+  private handleButonSelect(): void {
     // show menu
     this.menu = new Menu();
     this.addChild(this.menu);
     this.menu.on("close", this.handleCloseMenu, this);
   }
 
-  handleCloseMenu() {
+  private handleCloseMenu(): void {
     this.menu?.off("close");
     this.menu?.destroy();
     this.menu = undefined;

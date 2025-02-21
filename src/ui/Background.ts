@@ -1,6 +1,9 @@
 import { Container, Graphics, Texture } from "pixi.js";
 import { GAME_HEIGHT, GAME_WIDTH } from "../constants/Constants";
 
+/**
+ * The Background class creates background that fills whole screen
+ */
 export class Background extends Container {
   constructor(textureId: string) {
     super();

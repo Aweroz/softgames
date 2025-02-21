@@ -45,14 +45,14 @@ export class CardsScene extends Container implements IScene {
   }
 
   update(deltaTime: number): void {
-    if (!this.stack1.isEmpty()) {
+    if (!this.stack1.isEmpty()) { // if source stack is not empty
       this.timeToSpawn -= deltaTime;
       if (this.timeToSpawn <= 0) {
+        // spawn new card
         this.timeToSpawn = this.SPAWN_TIME;
         const card: Card | undefined = this.stack1.getTopCard();
         if (card) {
           const pos = this.cardsContainer.toLocal(card.getGlobalPosition());
-          // debugger;
           this.stack1.removeCard(card);
           card.position = pos;
           this.cardsContainer.addChild(card);

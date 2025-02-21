@@ -1,5 +1,8 @@
 import { BitmapText, Container, FederatedPointerEvent, Graphics } from "pixi.js";
 
+/**
+ * The Button component
+ */
 export class Button extends Container {
 
   private id: string;

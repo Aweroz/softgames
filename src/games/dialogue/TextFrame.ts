@@ -93,14 +93,12 @@ export class TextFrame extends Container {
     let y: number = 0;
     const gap: number = 10;
     this.words.forEach(word => {
-      word.x = left + x;
-      word.y = top + y;
       if (x + word.width >= width) {
         x = 0;
         y += 40;
-        word.x = left + x;
-        word.y = top + y;
       }
+      word.x = left + x;
+      word.y = top + y;
       x += gap + word.width;
     });
   }

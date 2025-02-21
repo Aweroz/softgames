@@ -4,6 +4,9 @@ import { Button } from "./Button";
 import { GameManager } from "../GameManager";
 import { SceneManager } from "../SceneManager";
 
+/**
+ * The Menu class displays in-game menu
+ */
 export class Menu extends Container {
 
   private bg: Graphics;

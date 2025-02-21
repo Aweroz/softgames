@@ -17,7 +17,7 @@ export class Card extends Container {
     this.addChild(card);
   }
 
-  goToStack(stack: Stack): void {
+  goToStack(stack: Stack, duration: number = 2000): void {
     this.destStack = stack;
     const startPos: Point = this.position.clone();
     
@@ -25,7 +25,7 @@ export class Card extends Container {
 
     // movement
     this.tween1 = new Tween({ t: 0 })
-      .to({ t: 1 }, 2000)
+      .to({ t: 1 }, duration)
       .onComplete(() => this.handleAnimComplete())
       .onUpdate((obj) => {
         if (stack) {
@@ -40,7 +40,7 @@ export class Card extends Container {
       
     // rotation
     this.tween2 = new Tween(this)
-      .to({ rotation: Math.PI * 2}, 2000)
+      .to({ rotation: Math.PI * 2}, duration)
       .easing(Easing.Sinusoidal.InOut)
       .start();
   }
