@@ -62,8 +62,8 @@ export class SceneManager {
     let ar: number = width / height;
     if (ar < 4 / 3) {
       height = width * 0.75;
-    } else if (ar > 7 / 3) {
-      width = height * (7 / 3);
+    } else if (ar > 8 / 3) {
+      width = height * (8 / 3);
     }
     // calculate new aspect ratio
     ar = width / height;

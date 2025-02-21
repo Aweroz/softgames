@@ -4,9 +4,12 @@ import { GameManager } from "../GameManager";
 export class FPS extends Container {
   private back: Graphics;
   private label: BitmapText;
+  private fpses: number[];
 
   constructor() {
     super();
+
+    this.fpses = [];
 
     this.back = new Graphics();
     this.back.beginFill(0x000000, 0.2);
@@ -27,7 +30,12 @@ export class FPS extends Container {
 
     //
     GameManager.app.ticker.add(() => {
-      this.label.text = `FPS: ${Math.round(GameManager.app.ticker.FPS)}`;
+      this.fpses.push(GameManager.app.ticker.FPS);
+      if (this.fpses.length === 30) {
+        const average: number = this.fpses.reduce((p, c) => p + c, 0) / 30;
+        this.fpses = [];
+        this.label.text = `FPS: ${Math.round(average)}`;
+      }
     })
   }
 }
