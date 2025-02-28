@@ -5,7 +5,7 @@ export class Character extends Container {
 
   side: string = "";
   private character: Sprite;
-  private tween1: Tween<any>;
+  private tween1: Tween<Sprite>;
 
   constructor(charName: string, side: string) {
     super();

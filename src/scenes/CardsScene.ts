@@ -45,20 +45,24 @@ export class CardsScene extends Container implements IScene {
   }
 
   update(deltaTime: number): void {
-    if (!this.stack1.isEmpty()) { // if source stack is not empty
-      this.timeToSpawn -= deltaTime;
-      if (this.timeToSpawn <= 0) {
-        // spawn new card
-        this.timeToSpawn = this.SPAWN_TIME;
-        const card: Card | undefined = this.stack1.getTopCard();
-        if (card) {
-          const pos = this.cardsContainer.toLocal(card.getGlobalPosition());
-          this.stack1.removeCard(card);
-          card.position = pos;
-          this.cardsContainer.addChild(card);
-          card.goToStack(Math.random() < 0.5 ? this.stack2 : this.stack3);
-        }
-      }
+    if (this.stack1.isEmpty()) return;
+
+    this.timeToSpawn -= deltaTime;
+    if (this.timeToSpawn <= 0) {
+      // spawn new card
+      this.timeToSpawn = this.SPAWN_TIME;
+      this.spawnCard();
+    }
+  }
+
+  private spawnCard(): void {
+    const card: Card | undefined = this.stack1.getTopCard();
+    if (card) {
+      const pos = this.cardsContainer.toLocal(card.getGlobalPosition());
+      this.stack1.removeCard(card);
+      card.position = pos;
+      this.cardsContainer.addChild(card);
+      card.goToStack(Math.random() < 0.5 ? this.stack2 : this.stack3);
     }
   }
 

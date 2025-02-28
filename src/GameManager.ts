@@ -15,10 +15,18 @@ export class GameManager {
   private constructor() {}
 
   private static _app: Application;
+  private static _sceneManager: SceneManager;
   private static fps: FPS;
 
   public static get app(): Application {
     return GameManager._app;
+  }
+
+  public static get sceneManager(): SceneManager {
+    if (!GameManager._sceneManager) {
+      GameManager._sceneManager = SceneManager.GetInstance();
+    }
+    return GameManager._sceneManager;
   }
 
   public static initialize(background: number): void {
@@ -31,10 +39,8 @@ export class GameManager {
       backgroundColor: background
     });
 
-    SceneManager.initialize(GameManager._app);
-
     // load assets
-    SceneManager.changeScene(new LoaderScene());
+    GameManager.sceneManager.changeScene(new LoaderScene());
   }
 
   public static welcome() {
@@ -44,19 +50,19 @@ export class GameManager {
       GameManager.app.stage.addChild(GameManager.fps);
     }
 
-    SceneManager.changeScene(new WelcomeScene());
+    GameManager.sceneManager.changeScene(new WelcomeScene());
   }
 
   public static startGame(gameID: string) {
     switch(gameID) {
       case GAMES.CARDS:
-        SceneManager.changeScene(new CardsScene());
+        GameManager.sceneManager.changeScene(new CardsScene());
         break;
       case GAMES.DIALOGUE:
-        SceneManager.changeScene(new DialogueScene());
+        GameManager.sceneManager.changeScene(new DialogueScene());
         break;
       case GAMES.FIRE:
-        SceneManager.changeScene(new FireScene());
+        GameManager.sceneManager.changeScene(new FireScene());
         break;
     }
   }

@@ -8,7 +8,7 @@ import { GAMES } from "../constants/Constants";
 export class WelcomeScene extends Container implements IScene {
   
   private bg: Background;
-  private buttonsContainer: any;
+  private buttonsContainer: Container;
   private buttons: Button[];
 
   constructor() {
@@ -24,7 +24,7 @@ export class WelcomeScene extends Container implements IScene {
     this.buttons.push(new Button("Magic Words", GAMES.DIALOGUE));
     this.buttons.push(new Button("Phoenix Flame", GAMES.FIRE));
 
-    this.buttons.forEach((btn, i) => {
+    this.buttons.forEach((btn: Button, i: number) => {
       btn.on("buttonselect", this.handleButtonSelect, this);
       btn.y = i * 80;
     })
@@ -36,8 +36,8 @@ export class WelcomeScene extends Container implements IScene {
     this.buttonsContainer.addChild(...this.buttons);
   }
 
-  handleButtonSelect(data:any): void {
-    GameManager.startGame(data.id);
+  handleButtonSelect(id: string): void {
+    GameManager.startGame(id);
   }
 
   update(_deltaTime: number): void {}

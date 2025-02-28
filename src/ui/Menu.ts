@@ -2,7 +2,6 @@ import { Container, Graphics } from "pixi.js";
 import { GAME_HEIGHT, GAME_WIDTH, GAMES } from "../constants/Constants";
 import { Button } from "./Button";
 import { GameManager } from "../GameManager";
-import { SceneManager } from "../SceneManager";
 
 /**
  * The Menu class displays in-game menu
@@ -11,7 +10,7 @@ export class Menu extends Container {
 
   private bg: Graphics;
   private buttons: Button[];
-  private buttonsContainer: any;
+  private buttonsContainer: Container;
 
   constructor() {
     super();
@@ -40,11 +39,11 @@ export class Menu extends Container {
 
     this.buttonsContainer.addChild(...this.buttons);
 
-    this.resize(SceneManager.screenWidth, SceneManager.screenHeight);
+    this.resize(GameManager.sceneManager.screenWidth, GameManager.sceneManager.screenHeight);
   }
 
-  handleButtonSelect(data:any): void {
-    switch(data.id) {
+  handleButtonSelect(id: string): void {
+    switch(id) {
       case "home":
         GameManager.welcome();
         break;
@@ -52,7 +51,7 @@ export class Menu extends Container {
         this.emit("close");
         break;
       default:
-        GameManager.startGame(data.id);
+        GameManager.startGame(id);
     }
   }
 

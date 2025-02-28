@@ -12,7 +12,7 @@ export class LoaderScene extends Container implements IScene{
     constructor() {
         super();
 
-        const loaderBarWidth = 400;
+        const loaderBarWidth: number = 400;
         // the fill of the bar.
         this.loaderBarFill = new Graphics();
         this.loaderBarFill.beginFill(0xffffff, 1)
@@ -31,9 +31,9 @@ export class LoaderScene extends Container implements IScene{
         this.loaderBar.addChild(this.loaderBarBoder);
         this.addChild(this.loaderBar);
 
-        // Start loading!
+        // Start loading
         this.initializeLoader().then(() => {
-            // Remember that constructors can't be async, so we are forced to use .then(...) here!
+            // Remember that constructors can't be async, so we are forced to use .then(...) here
             this.gameLoaded();
         })
     }
@@ -50,7 +50,7 @@ export class LoaderScene extends Container implements IScene{
         await Assets.init({ manifest: manifest });
 
         // get list of bundle names
-        const bundleIds =  manifest.bundles.map(bundle => bundle.name);
+        const bundleIds: string[] =  manifest.bundles.map(bundle => bundle.name);
         await Assets.loadBundle(bundleIds, this.downloadProgress.bind(this));
     }
 

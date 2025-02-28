@@ -1,12 +1,12 @@
-import { BitmapText, Container, Graphics, IDestroyOptions, Sprite, Ticker } from "pixi.js";
-import { Group, Tween } from "tweedle.js";
+import { BitmapText, Container, Graphics, IDestroyOptions, Sprite } from "pixi.js";
+import { Tween } from "tweedle.js";
 
 export class TextFrame extends Container {
 
-  private frame: Graphics | undefined;
+  private frame: Graphics;
   private charName: BitmapText;
   private words: Container[];
-  private tweens: Tween<any>[] = [];
+  private tweens: Tween<Container>[] = [];
 
   constructor(name: string, text: string, availableEmojies: string[]) {
     super();
@@ -14,6 +14,8 @@ export class TextFrame extends Container {
     this.words = [];
 
     //
+    this.frame = new Graphics();
+    this.addChild(this.frame);
     this.drawFrame(500);
 
     // character name
@@ -58,12 +60,7 @@ export class TextFrame extends Container {
   }
 
   drawFrame(width: number): void {
-    if (!this.frame) {
-      this.frame = new Graphics();
-      this.addChild(this.frame);
-    } else {
-      this.frame.clear();
-    }
+    this.frame.clear();
     this.frame.beginFill(0x2428D2, 0.6);
     this.frame.lineStyle(2, 0xffffff);
     this.frame.drawRoundedRect(0, 0, width, 200, 15);
@@ -79,16 +76,16 @@ export class TextFrame extends Container {
   }
 
   private positionName(): void {
-    const left: number = this.frame!.x + 40;
-    const top: number = this.frame!.y + 20;
+    const left: number = this.frame.x + 40;
+    const top: number = this.frame.y + 20;
     this.charName.x = left;
     this.charName.y = top;
   }
 
   private positionWords(): void {
-    const width: number = this.frame!.width - 80;
-    const left: number = this.frame!.x + 40;
-    const top: number = this.charName!.y + 40;
+    const width: number = this.frame.width - 80;
+    const left: number = this.frame.x + 40;
+    const top: number = this.charName.y + 40;
     let x: number = 0;
     let y: number = 0;
     const gap: number = 10;
@@ -107,22 +104,22 @@ export class TextFrame extends Container {
     this.tweens = [];
     this.words.forEach((word, i) => {
       word.alpha = 0;
-      const tween:Tween<any> = new Tween(word)
+      const tween:Tween<Container> = new Tween(word)
         .to({ alpha: 1}, 100)
         .delay(i * 50)
         .start();
       this.tweens.push(tween);
     })
 
-    Ticker.shared.add(this.update, this);
+    // Ticker.shared.add(this.update, this);
   }
     
-  private update(): void {
-    Group.shared.update();
-  }
+  // private update(): void {
+  //   Group.shared.update();
+  // }
 
   override destroy(options?: IDestroyOptions | boolean): void {
-    Ticker.shared.remove(this.update, this);
+    // Ticker.shared.remove(this.update, this);
     super.destroy(options);
   }
 }

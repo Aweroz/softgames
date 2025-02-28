@@ -1,71 +1,62 @@
 import { DisplayObject } from "pixi.js";
-import { GAME_HEIGHT, GAME_WIDTH } from "./constants/Constants";
+import { GAME_HEIGHT } from "./constants/Constants";
 import { GameManager } from "./GameManager";
 
 /**
  * The SceneManager class that handles changing scenes and add calls update for current scene
  */
 export class SceneManager {
-  private static _instance: SceneManager;
-
-  public screenWidth: number = GAME_WIDTH;
-  public screenHeight: number = GAME_HEIGHT;
-  private currentScene: IScene | undefined;
+  static screenWidth: number;
+  static screenHeight: number;
   
-  private constructor() {}
+  private static currentScene: IScene;
+  
+  private constructor() { }
 
-  public static GetInstance(): SceneManager {
-    if (!SceneManager._instance) {
-      SceneManager._instance = new SceneManager();
-      SceneManager._instance.initialize();
-    }
-    return SceneManager._instance;
-  }
-
-  private get width(): number {
+  public static get width(): number {
     return Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
   }
 
-  private get height(): number {
+  public static get height(): number {
     return Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
   }
 
 
-  private initialize(): void {
-    GameManager.app.ticker.add(this.update, this);
+  public static initialize(): void {
+    GameManager.app.ticker.add(SceneManager.update);
 
     // listen for the browser telling us that the screen size changed
-    window.addEventListener("resize", this.resize.bind(this));
+    window.addEventListener("resize", SceneManager.resize);
 
     // call it manually once so we are sure we are the correct size after starting
-    this.resize();
+    SceneManager.resize();
   }
 
-  public changeScene(newScene: IScene):void {
+  public static changeScene(newScene: IScene):void {
     // Remove and destroy old scene...
-    if (this.currentScene) {
-      GameManager.app.stage.removeChild(this.currentScene);
-      this.currentScene.destroy({ children: true });
+    if (SceneManager.currentScene) {
+      GameManager.app.stage.removeChild(SceneManager.currentScene);
+      SceneManager.currentScene.destroy({ children: true });
     }
 
     // Add the new one to the bottom
-    this.currentScene = newScene;
-    GameManager.app.stage.addChildAt(this.currentScene, 0);
+    SceneManager.currentScene = newScene;
+    GameManager.app.stage.addChildAt(SceneManager.currentScene, 0);
 
     //
-    this.resize();
+    SceneManager.resize();
   }
 
   // This update will be called by a pixi ticker and tell the scene that a tick happened
-  private update(_framesPassed: number): void {
-    if (this.currentScene) {
-      this.currentScene.update(GameManager.app.ticker.deltaMS / 1000);
+  private static update(_framesPassed: number): void {
+    if (SceneManager.currentScene) {
+      SceneManager.currentScene.update(GameManager.app.ticker.deltaMS / 1000);
     }
   }
 
-  public resize(): void {
-    let width: number = this.width;
-    let height: number = this.height;
+  public static resize(): void {
+    let width: number = SceneManager.width;
+    let height: number = SceneManager.height;
 
     // keep aspect ratio between 4:3 and 7:3
     let ar: number = width / height;
@@ -78,9 +69,9 @@ export class SceneManager {
     ar = width / height;
 
     // resize renderer
-    this.screenWidth = GAME_HEIGHT * ar;
-    this.screenHeight = GAME_HEIGHT;
-    GameManager.app.renderer.resize(this.screenWidth, this.screenHeight);
+    SceneManager.screenWidth = GAME_HEIGHT * ar;
+    SceneManager.screenHeight = GAME_HEIGHT;
+    GameManager.app.renderer.resize(SceneManager.screenWidth, SceneManager.screenHeight);
     // apply style to canvas - HAS to be done AFTER renderer resize
     if (GameManager.app.view.style) {
       GameManager.app.view.style.width = `${width}px`;
@@ -88,8 +79,8 @@ export class SceneManager {
     }
 
     // resize scene if exists
-    if (this.currentScene) {
-      this.currentScene.resize(this.screenWidth, this.screenHeight);
+    if (SceneManager.currentScene) {
+      SceneManager.currentScene.resize(SceneManager.screenWidth, SceneManager.screenHeight);
     }
   }
 }

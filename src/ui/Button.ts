@@ -39,6 +39,6 @@ export class Button extends Container {
   }
 
   handleTap(_e: FederatedPointerEvent): void {
-    this.emit("buttonselect", { id: this.id });
+    this.emit("buttonselect", this.id);
   }
 }

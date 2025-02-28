@@ -4,6 +4,7 @@ import { Background } from "../ui/Background";
 import { GameHUD } from "../ui/GameHUD";
 import { TextFrame } from "../games/dialogue/TextFrame";
 import { Character } from "../games/dialogue/Character";
+import { Group } from "tweedle.js";
 
 type DialogueData = {
   dialogue: { name: string, text: string }[],
@@ -49,13 +50,17 @@ export class DialogueScene extends Container implements IScene {
     this.dialogueContainer.addChild(this.loading);
 
     // get data
-    this.fetchData().then(() => {
-      this.loading.visible = false;
-      this.startDialogue();
-    });
+    this.fetchData()
+      .then(() => {
+        this.loading.visible = false;
+        this.startDialogue();
+      })
+      .catch((reason: unknown) => {
+        console.log(reason);
+      });
   }
 
-  private async fetchData(): Promise<any> {
+  private async fetchData(): Promise<void> {
     Assets.add({
       alias: "dialogues",
       src: "https://private-624120-softgamesassignment.apiary-mock.com/v2/magicwords",
@@ -65,27 +70,27 @@ export class DialogueScene extends Container implements IScene {
       this.data = await Assets.load("dialogues");
     } catch (error) {
       console.error(error);
+      throw Error("data load error");
     }
+
+    //
+    if (!this.data) throw Error("no data");
     
     // load avatars
-    for (const av of this.data!.avatars) {
+    await Promise.allSettled(this.data.avatars.map(async (av) => {
       Assets.add({
         alias: av.name,
         src: av.url,
         loadParser: "loadTextures"
       });
-      try {
-        await Assets.load(av.name);
-      } catch (error) {
-        console.error(error);
-      }
-    }
+      return await Assets.load(av.name);
+    }));
 
     // load emojis
-    for (const em of this.data!.emojies) {
+    for (const em of this.data.emojies) {
       Assets.add({
         alias: em.name,
-        src: em.url.replace(":81", ""), // dirty fix to solve issue with broken url - without this there is an issue on Apple devices, seems to be bug in pixi assets loader
+        src: em.url,//.replace(":81", ""), // dirty fix to solve issue with broken url - without this there is an issue on Apple devices, seems to be bug in pixi assets loader
         loadParser: "loadTextures"
       });
       this.availableEmojis.push(em.name);
@@ -126,29 +131,31 @@ export class DialogueScene extends Container implements IScene {
     }
 
     //
-    const dialogue = this.data?.dialogue[this.currentLine];
+    const dialogue = this.data!.dialogue[this.currentLine];
 
     // set character 
-    const characterData = this.data?.avatars.find(av => av.name === dialogue?.name);
+    const characterData = this.data?.avatars.find(av => av.name === dialogue.name);
     // some characters do not have avatar
     if (characterData) {
-      this.character = new Character(dialogue!.name, characterData.position);
+      this.character = new Character(dialogue.name, characterData.position);
       this.dialogueContainer.addChild(this.character);
     }
 
     // display dialogue in frame
-    this.frame = new TextFrame(dialogue!.name, dialogue!.text, this.availableEmojis);
+    this.frame = new TextFrame(dialogue.name, dialogue.text, this.availableEmojis);
     this.dialogueContainer.addChildAt(this.frame, 0);
 
     //
-    this.positionFrame(SceneManager.screenWidth, SceneManager.screenHeight);
-    this.positionCharacter(SceneManager.screenWidth, SceneManager.screenHeight);
+    const width: number = SceneManager.GetInstance().screenWidth;
+    const height: number = SceneManager.GetInstance().screenHeight;
+    this.positionFrame(width, height);
+    this.positionCharacter(width, height);
   }
 
   // set position of the character next to the frame
   private positionCharacter(screenWidth: number, screenHeight: number): void {
-    if (this.character) {
-      this.character.x = screenWidth / 2 + (this.frame!.width / 2 + 50) * (this.character.side === "left" ? -1 : 1);
+    if (this.character && this.frame) {
+      this.character.x = screenWidth / 2 + (this.frame.width / 2 + 50) * (this.character.side === "left" ? -1 : 1);
       this.character.y = screenHeight;
     }
   }
@@ -164,7 +171,7 @@ export class DialogueScene extends Container implements IScene {
   }
 
   update(_deltaTime: number): void {
-
+    Group.shared.update();
   }
 
   resize(screenWidth: number, screenHeight: number): void {
