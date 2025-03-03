@@ -110,16 +110,9 @@ export class TextFrame extends Container {
         .start();
       this.tweens.push(tween);
     })
-
-    // Ticker.shared.add(this.update, this);
   }
-    
-  // private update(): void {
-  //   Group.shared.update();
-  // }
 
   override destroy(options?: IDestroyOptions | boolean): void {
-    // Ticker.shared.remove(this.update, this);
     super.destroy(options);
   }
 }
