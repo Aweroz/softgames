@@ -6,10 +6,26 @@ import { TextFrame } from "../games/dialogue/TextFrame";
 import { Character } from "../games/dialogue/Character";
 import { Group } from "tweedle.js";
 
+type Dialogue = {
+  name: string,
+  text: string
+}
+
+type Emoji = {
+  name: string,
+  url: string
+}
+
+type Avatar = {
+  name: string,
+  url: string,
+  position: string
+}
+
 type DialogueData = {
-  dialogue: { name: string, text: string }[],
-  emojies: { name: string, url: string} [],
-  avatars: { name: string, url: string, position: string }[]
+  dialogue: Dialogue[],
+  emojies: Emoji[],
+  avatars: Avatar[]
 }
 
 export class DialogueScene extends Container implements IScene {
@@ -63,7 +79,7 @@ export class DialogueScene extends Container implements IScene {
   private async fetchData(): Promise<void> {
     Assets.add({
       alias: "dialogues",
-      src: "https://private-624120-softgamesassignment.apiary-mock.com/v2/magicwords",
+      src: "https://private-624120-softgamesassignment.apiary-mock.com/v2/magicwords1",
       loadParser: "loadJson"
     });
     try {
@@ -75,32 +91,28 @@ export class DialogueScene extends Container implements IScene {
 
     //
     if (!this.data) throw Error("no data");
-    
-    // load avatars
-    await Promise.allSettled(this.data.avatars.map(async (av) => {
-      Assets.add({
-        alias: av.name,
-        src: av.url,
-        loadParser: "loadTextures"
-      });
-      return await Assets.load(av.name);
-    }));
 
-    // load emojis
-    for (const em of this.data.emojies) {
+    await this.loadImages(this.data.avatars);
+    this.availableEmojis = await this.loadImages(this.data.emojies);
+  }
+
+  private async loadImages(list: Emoji[] | Avatar[]): Promise<string[]> {
+    const loaded: string[] = [];
+    for (const item of list) {
       Assets.add({
-        alias: em.name,
-        src: em.url,//.replace(":81", ""), // dirty fix to solve issue with broken url - without this there is an issue on Apple devices, seems to be bug in pixi assets loader
+        alias: item.name,
+        src: item.url, //.replace(":81", ""), // dirty fix to solve issue with broken url - without this there is an issue on Apple devices, seems to be bug in pixi assets loader
         loadParser: "loadTextures"
       });
-      this.availableEmojis.push(em.name);
+      loaded.push(item.name);
       try {
-        await Assets.load(em.name);
+        await Assets.load(item.name);
       } catch (error) {
-        this.availableEmojis = this.availableEmojis.filter(name => name !== em.name);
+        this.availableEmojis = this.availableEmojis.filter(name => name !== item.name);
         console.error(error);
       }
     };
+    return loaded;
   }
 
   private startDialogue(): void {
