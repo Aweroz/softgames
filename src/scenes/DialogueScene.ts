@@ -79,7 +79,7 @@ export class DialogueScene extends Container implements IScene {
   private async fetchData(): Promise<void> {
     Assets.add({
       alias: "dialogues",
-      src: "https://private-624120-softgamesassignment.apiary-mock.com/v2/magicwords1",
+      src: "https://private-624120-softgamesassignment.apiary-mock.com/v2/magicwords",
       loadParser: "loadJson"
     });
     try {
