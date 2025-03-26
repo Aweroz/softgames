@@ -97,7 +97,7 @@ export class DialogueScene extends Container implements IScene {
   }
 
   private async loadImages(list: Emoji[] | Avatar[]): Promise<string[]> {
-    const loaded: string[] = [];
+    let loaded: string[] = [];
     for (const item of list) {
       Assets.add({
         alias: item.name,
@@ -108,7 +108,7 @@ export class DialogueScene extends Container implements IScene {
       try {
         await Assets.load(item.name);
       } catch (error) {
-        this.availableEmojis = this.availableEmojis.filter(name => name !== item.name);
+        loaded = loaded.filter(name => name !== item.name); // remove from loaded list
         console.error(error);
       }
     };
